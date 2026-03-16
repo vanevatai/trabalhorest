@@ -23,13 +23,7 @@ public class ProdutoController {
 	ProdutoController(ProdutoRepository restRepository) {
 		this.repository = restRepository;
 	}
-
-	//Listar todos
-	@GetMapping
-	public List<?> findAll() {
-		return repository.findAll();
-	}
-
+	
 	//Listar específico
 	@GetMapping(path = { "/{id}" })
 	public ResponseEntity<?> findById(@PathVariable long id) {
@@ -41,18 +35,6 @@ public class ProdutoController {
 	@PostMapping
 	public Produto create(@RequestBody Produto produto) {
 		return repository.save(produto);
-	}
-
-	//Atualizar entrada
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Produto produto) {
-		return repository.findById(id).map(record -> {
-			record.setNome(produto.getNome());
-			record.setPreco(produto.getPreco());
-			record.setEstoque(produto.getEstoque());
-			Produto updated = repository.save(record);
-			return ResponseEntity.ok().body(updated);
-		}).orElse(ResponseEntity.notFound().build());
 	}
 
 	//Deletar entrada

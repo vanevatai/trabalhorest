@@ -24,12 +24,6 @@ public class PedidoController {
 		this.repository = restRepository;
 	}
 
-	//Listar todos
-	@GetMapping
-	public List<?> findAll() {
-		return repository.findAll();
-	}
-
 	//Listar específico
 	@GetMapping(path = { "/{id}" })
 	public ResponseEntity<?> findById(@PathVariable long id) {
@@ -41,18 +35,6 @@ public class PedidoController {
 	@PostMapping
 	public Pedido create(@RequestBody Pedido pedido) {
 		return repository.save(pedido);
-	}
-
-	//Atualizar entrada
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Pedido pedido) {
-		return repository.findById(id).map(record -> {
-			record.setClienteId(pedido.getClienteId());
-			record.setProdutoId(pedido.getProdutoId());
-			record.setQuantidade(pedido.getQuantidade());
-			Pedido updated = repository.save(record);
-			return ResponseEntity.ok().body(updated);
-		}).orElse(ResponseEntity.notFound().build());
 	}
 
 	//Deletar entrada
